@@ -1,11 +1,19 @@
 import React from 'react'
+import {toast} from 'react-toastify'
 
 function CopyIcon({text}) {
-  console.log("props", text)
   const copyText = (copiedText) => { 
-    console.log(copiedText)
     navigator.clipboard.writeText(copiedText)
-    alert("copied to clipboard" + copiedText)
+    toast('Copied to Clipboard...', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
    }
   return (
     <div onClick={() => {copyText(text)}} className='lordiconcopy size-7 cursor-pointer'>
