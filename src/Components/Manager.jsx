@@ -1,6 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useRef } from "react";
 
-export default function Manager() {
+const Manager = () => {
+    const imgRef = useRef()
+    const [form, setform] = useState({
+        site: "",
+        username: "",
+        password: ""
+    })
+    const [passwordArray, setPasswordArray] = useState([])
+
+
+    useEffect(() => {
+      let passwords = localStorage.getItem("passwords");
+      if (passwords) {
+        setPasswordArray(JSON.parse(passwords))
+      }
+    }, [])
+    
+    const showPassword = () => {
+        if (imgRef.current.src.includes("icons/eyecross.png")) {
+            imgRef.current.src = "icons/eye.png"
+        }else {
+            imgRef.current.src = "icons/eyecross.png"
+        }
+    }
+
+    const savePassword = () => { 
+        setPasswordArray([...passwordArray, form])
+        localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
+     }
+
+    const handleFormChange = (e) => {
+        setform({
+            ...form, [e.target.name]: e.target.value
+        })
+    }
+
   return (
     <>
       <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
@@ -16,18 +52,18 @@ export default function Manager() {
         <p className='text-green-900 text-lg text-center'>Your own Password Manager</p>
 
         <div className="flex flex-col p-4 text-black gap-8 items-center">
-            <input placeholder='Enter website URL' className='rounded-full border border-green-500 w-full p-4 py-1' type="text" name="site" id="site" />
+            <input onChange={handleFormChange} value={form.site} placeholder='Enter website URL' className='rounded-full border border-green-500 w-full p-4 py-1' type="text" name="site" id="site" />
             <div className="flex flex-col md:flex-row w-full justify-between gap-8">
-                <input   placeholder='Enter Username' className='rounded-full border border-green-500 w-full p-4 py-1' type="text" name="username" id="username" />
+                <input onChange={handleFormChange} value={form.username} placeholder='Enter Username' className='rounded-full border border-green-500 w-full p-4 py-1' type="text" name="username" id="username" />
                 <div className="relative">
-                    <input    placeholder='Enter Password' className='rounded-full border border-green-500 w-full p-4 py-1' type="password" name="password" id="password" />
-                    <span className='absolute right-[3px] top-[4px] cursor-pointer' >
-                        <img  className='p-1' width={26} src="icons/eye.png" alt="eye" />
+                    <input onChange={handleFormChange} value={form.password} placeholder='Enter Password' className='rounded-full border border-green-500 w-full pl-4 py-1 pr-7' type="password" name="password" id="password" />
+                    <span onClick={showPassword} className='absolute right-[3px] top-[4px] cursor-pointer' >
+                        <img ref={imgRef}  className='p-1' width={26} src="icons/eye.png" alt="eye" />
                     </span>
                 </div>
 
             </div>
-            <button  className='flex justify-center items-center gap-2 bg-green-400 hover:bg-green-300 rounded-full px-8 py-2 w-fit border border-green-900'>
+            <button onClick={savePassword}  className='flex justify-center items-center gap-2 bg-green-400 hover:bg-green-300 rounded-full px-8 py-2 w-fit border border-green-900'>
                 <lord-icon
                     src="https://cdn.lordicon.com/jgnvfzqg.json"
                     trigger="hover" >
@@ -38,3 +74,7 @@ export default function Manager() {
     </>
   );
 }
+
+
+export default Manager;
+
