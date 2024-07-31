@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useRef } from "react";
+import PasswordLIst from "./PasswordList";
 
 const Manager = () => {
     const imgRef = useRef()
-    const [form, setform] = useState({
+    const [form, setForm] = useState({
         site: "",
         username: "",
         password: ""
@@ -29,19 +30,22 @@ const Manager = () => {
     const savePassword = () => { 
         setPasswordArray([...passwordArray, form])
         localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
+        setForm({
+            site: "",
+            username: "",
+            password: ""
+        })
      }
 
     const handleFormChange = (e) => {
-        setform({
+        setForm({
             ...form, [e.target.name]: e.target.value
         })
     }
 
   return (
     <>
-      <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
-        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div>
-      </div>
+      <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"> <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div></div>
 
       <div className=" p-3 md:mycontainer min-h-[88.2vh] ">
         <h1 className="text-4xl text font-bold text-center">
@@ -70,6 +74,7 @@ const Manager = () => {
                 </lord-icon>
                 Save</button>
         </div>
+        <PasswordLIst passwords={passwordArray}/>
       </div>
     </>
   );
