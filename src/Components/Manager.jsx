@@ -3,7 +3,10 @@ import { useRef } from "react";
 import PasswordLIst from "./PasswordList";
 
 const Manager = () => {
+
     const imgRef = useRef()
+    const passwordRef = useRef()
+
     const [form, setForm] = useState({
         site: "",
         username: "",
@@ -20,11 +23,17 @@ const Manager = () => {
     }, [])
     
     const showPassword = () => {
+        passwordRef.current.type = "text"
         if (imgRef.current.src.includes("icons/eyecross.png")) {
             imgRef.current.src = "icons/eye.png"
+            passwordRef.current.type = "text"
+
         }else {
             imgRef.current.src = "icons/eyecross.png"
+        passwordRef.current.type = "password"
+
         }
+
     }
 
     const savePassword = () => { 
@@ -60,7 +69,7 @@ const Manager = () => {
             <div className="flex flex-col md:flex-row w-full justify-between gap-8">
                 <input onChange={handleFormChange} value={form.username} placeholder='Enter Username' className='rounded-full border border-green-500 w-full p-4 py-1' type="text" name="username" id="username" />
                 <div className="relative">
-                    <input onChange={handleFormChange} value={form.password} placeholder='Enter Password' className='rounded-full border border-green-500 w-full pl-4 py-1 pr-7' type="password" name="password" id="password" />
+                    <input onChange={handleFormChange} ref={passwordRef} value={form.password} placeholder='Enter Password' className='rounded-full border border-green-500 w-full pl-4 py-1 pr-7' type="password" name="password" id="password" />
                     <span onClick={showPassword} className='absolute right-[3px] top-[4px] cursor-pointer' >
                         <img ref={imgRef}  className='p-1' width={26} src="icons/eye.png" alt="eye" />
                     </span>

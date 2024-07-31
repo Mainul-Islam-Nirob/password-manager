@@ -21,19 +21,19 @@ function PasswordLIst({passwords}) {
                     <td className='py-2 border border-white text-center'>
                         <div className='flex items-center justify-center '>
                             <a href={item.site} target='_blank'>{item.site}</a>
-                             <CopyIcon />                            
+                             <CopyIcon text={item.site} />                            
                         </div>
                     </td>
                     <td className='py-2 border border-white text-center'>
                         <div className='flex items-center justify-center '>
                             <span>{item.username}</span>
-                            <CopyIcon />
+                            <CopyIcon text={item.username} />
                         </div>
                     </td>
                     <td className='py-2 border border-white text-center'>
                         <div className='flex items-center justify-center '>
                             <span>{item.password}</span>
-                            <CopyIcon />
+                            <CopyIcon text={item.password} />
                         </div>
                     </td>
                     <td className='justify-center py-2 border border-white text-center'>
