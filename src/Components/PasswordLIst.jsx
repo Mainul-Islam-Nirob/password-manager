@@ -21,7 +21,7 @@ function PasswordLIst({passwords, handleDelete, handleEdit}) {
                 return <tr key={index}>
                     <td className='py-2 border border-white text-center'>
                         <div className='flex items-center justify-center '>
-                            <a href={item.site} target='_blank'>{item.site}</a>
+                            <a className='hover:underline hover:text-green-600' href={item.site} target='_blank'>{item.site}</a>
                              <CopyIcon text={item.site} />                            
                         </div>
                     </td>
