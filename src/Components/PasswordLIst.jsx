@@ -2,7 +2,7 @@ import React from 'react'
 import CopyIcon from './CopyIcon'
 
 
-function PasswordLIst({passwords}) {
+function PasswordLIst({passwords, handleDelete, handleEdit}) {
   return (
     <div className="passwords">
     <h2 className='font-bold text-2xl py-4'>Your Passwords</h2>
@@ -38,14 +38,14 @@ function PasswordLIst({passwords}) {
                         </div>
                     </td>
                     <td className='justify-center py-2 border border-white text-center'>
-                        <span className='cursor-pointer mx-1'>
+                        <span onClick={() => handleEdit(item.id)} className='cursor-pointer mx-1'>
                             <lord-icon
                                 src="https://cdn.lordicon.com/gwlusjdu.json"
                                 trigger="hover"
                                 style={{"width":"25px", "height":"25px"}}>
                             </lord-icon>
                         </span>
-                        <span className='cursor-pointer mx-1'>
+                        <span onClick={() => handleDelete(item.id)} className='cursor-pointer mx-1'>
                             <lord-icon
                                 src="https://cdn.lordicon.com/skkahier.json"
                                 trigger="hover"

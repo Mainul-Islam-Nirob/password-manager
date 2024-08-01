@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { ToastContainer } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRef } from "react";
 import PasswordLIst from "./PasswordList";
+
 
 const Manager = () => {
 
@@ -15,6 +17,7 @@ const Manager = () => {
         password: ""
     })
     const [passwordArray, setPasswordArray] = useState([])
+    const [editId, setEditId] = useState(null)
 
 
     useEffect(() => {
@@ -28,25 +31,84 @@ const Manager = () => {
         passwordRef.current.type = "text"
         if (imgRef.current.src.includes("icons/eyecross.png")) {
             imgRef.current.src = "icons/eye.png"
-            passwordRef.current.type = "text"
+            passwordRef.current.type = "password"
 
         }else {
             imgRef.current.src = "icons/eyecross.png"
-        passwordRef.current.type = "password"
+        passwordRef.current.type = "text"
 
         }
 
     }
 
     const savePassword = () => { 
-        setPasswordArray([...passwordArray, form])
-        localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
+        const existingPassIndex = passwordArray.findIndex(item => item.id === editId)
+        if (existingPassIndex !== -1) {
+          const updatedPasswordArray = passwordArray.map((item, index) => {
+            if (index === existingPassIndex) {
+              return { ...form, id: editId };
+            }
+            return item;
+          });
+          setPasswordArray(updatedPasswordArray);
+          localStorage.setItem("passwords", JSON.stringify(updatedPasswordArray));
+          setEditId(null);
+          toast.success('Password Updated...', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
+        } else {
+          setPasswordArray([...passwordArray, {...form, id: uuidv4()}]);
+          localStorage.setItem("passwords", JSON.stringify([...passwordArray, {...form, id: uuidv4()}]));
+
+          toast.success('Password Saved...', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
+        }
+      
         setForm({
-            site: "",
-            username: "",
-            password: ""
-        })
-     }
+          site: "",
+          username: "",
+          password: ""
+        });
+      }
+
+     const deletePassword = (id) => {
+        let c = confirm("Do you really want to delete this password?")
+        if(c){
+            setPasswordArray(passwordArray.filter(item=>item.id!==id))
+            localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item=>item.id!==id))) 
+            toast.error('Password Deleted...', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
+        }
+            
+    }
+    const editPassword = (id) => {
+        setEditId(id);
+        const passwordToEdit = passwordArray.find(item => item.id === id)
+        setForm(passwordToEdit)
+    }
 
     const handleFormChange = (e) => {
         setForm({
@@ -55,23 +117,8 @@ const Manager = () => {
     }
 
   return (
+    
     <>
-    <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition="Bounce"
-        />
-        {/* Same as */}
-        <ToastContainer />
-
       <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"> <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div></div>
 
       <div className=" p-3 md:mycontainer min-h-[88.2vh] ">
@@ -101,7 +148,7 @@ const Manager = () => {
                 </lord-icon>
                 Save</button>
         </div>
-        <PasswordLIst passwords={passwordArray}/>
+        <PasswordLIst handleDelete={deletePassword} handleEdit={editPassword} passwords={passwordArray}/>
       </div>
     </>
   );
