@@ -1,6 +1,6 @@
 # Password Manager
 
-This is a password manager app where you can store your secret password so that you never forget them
+This is a password manager app using local storage where you can store your secret password so that you never forget them
 
 ## Table of contents
 
@@ -14,6 +14,7 @@ This is a password manager app where you can store your secret password so that 
 
 The final output:
 ![Desktop-view](./final-look.png)
+![Mobile-view](./final-look-sm.png)
 
 ### Links
 
@@ -25,7 +26,6 @@ Live Site URL: [See live app here](https://mainul-islam-nirob.github.io/password
 - Tailwind CSS
 - React
 - Local Storage
-- Mongo DB
 
 ## Author
 

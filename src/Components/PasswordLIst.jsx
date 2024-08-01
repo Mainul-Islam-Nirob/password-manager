@@ -5,7 +5,7 @@ import CopyIcon from './CopyIcon'
 function PasswordLIst({passwords, handleDelete, handleEdit}) {
   return (
     <div className="passwords">
-    <h2 className='font-bold text-2xl py-4'>Your Passwords</h2>
+    <h2 className='font-bold text-2xl py-2'>Your Passwords</h2>
     {passwords.length === 0 && <div> No passwords to show</div>}
     {passwords.length != 0 && <table className="table-auto w-full rounded-md overflow-hidden mb-10">
         <thead className='bg-green-800 text-white'>
