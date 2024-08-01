@@ -42,6 +42,20 @@ const Manager = () => {
     }
 
     const savePassword = () => { 
+        const { site, username, password } = form;
+        if (site.length < 3 || username.length < 3 || password.length < 3) {
+            toast.info('All fields must be at least 3 characters long', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
+        return;
+      }
         const existingPassIndex = passwordArray.findIndex(item => item.id === editId)
         if (existingPassIndex !== -1) {
           const updatedPasswordArray = passwordArray.map((item, index) => {
