@@ -9,7 +9,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 function App() {
 
   return (
-    <BrowserRouter basename="todo-react">
+    <BrowserRouter basename="password-manager">
         <Routes>
         <Route 
           path="/"
